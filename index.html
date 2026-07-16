@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GUTS · Practical Driving Course — Mga Kakailanganin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red-deep: #6E1220;
+    --red: #C0272D;
+    --red-dark: #8C1D1D;
+    --yellow: #FFC72C;
+    --yellow-dark: #D9A400;
+    --bg: #FFF8EC;
+    --paper: #FFFFFF;
+    --ink: #291413;
+    --ink-soft: #6E524C;
+    --line: #EEDCC9;
+    --radius: 12px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3","Segoe UI",Arial,sans-serif;
+    font-size: 16.5px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3, .eyebrow{
+    font-family: "Oswald","Arial Narrow",Impact,sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  a{ color: inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0; background:var(--yellow); color:var(--red-deep);
+    padding:10px 16px; z-index:200; font-weight:700; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{ left:0; }
+
+  /* ---------- Header ---------- */
+  header.site{
+    background: var(--red-deep);
+    color: #fff;
+    position: sticky; top:0; z-index:100;
+    border-bottom: 3px solid var(--yellow);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; padding: 8px 0; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand img.logo{ width:38px; height:38px; flex-shrink:0; }
+  .brand-text .name{ font-family:"Oswald",sans-serif; font-weight:700; font-size:1.05rem; letter-spacing:0.03em; }
+  .brand-text .sub{ font-size: 0.7rem; color:#F0C9CD; letter-spacing:0.02em; }
+
+  nav.links{ display:flex; gap: 18px; }
+  nav.links a{
+    text-decoration:none; color:#F5DEE0; font-size:0.88rem; font-weight:600;
+    padding:4px 2px; border-bottom:2px solid transparent;
+  }
+  nav.links a:hover, nav.links a:focus{ color:#fff; border-bottom-color: var(--yellow); }
+  .nav-toggle{ display:none; background:none; border:2px solid #A24450; color:#fff; border-radius:8px; padding:6px 9px; }
+
+  @media (max-width: 760px){
+    nav.links{
+      position:absolute; top:100%; left:0; right:0; background: var(--red-dark);
+      flex-direction:column; gap:0; max-height:0; overflow:hidden; transition: max-height .25s ease;
+      border-bottom: 3px solid var(--yellow);
+    }
+    nav.links.open{ max-height: 300px; }
+    nav.links a{ padding:12px 22px; border-bottom:1px solid #9c3038; }
+    .nav-toggle{ display:block; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{ background: var(--red-deep); color:#fff; padding: 28px 0 36px; position:relative; overflow:hidden; }
+  .hero::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:8px;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0 36px, transparent 36px 64px);
+  }
+  .hero .eyebrow{ color: var(--yellow); font-size:0.78rem; font-weight:700; margin:0 0 6px; }
+  .hero h1{ font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight:700; margin:0 0 10px; line-height:1.12; max-width: 22ch; }
+  .hero p.lead{ max-width: 62ch; color:#F5DEE0; font-size:1rem; margin:0 0 18px; }
+  .hero p.lead .en{ display:block; color:#D9A9AD; font-size:0.86rem; margin-top:4px; font-style:italic; }
+  .hero-ctas{ display:flex; flex-wrap:wrap; gap:10px; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 10px 18px; border-radius: 999px; font-weight:700; font-size:0.9rem;
+    text-decoration:none; border:2px solid transparent; cursor:pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:focus-visible{ outline:3px solid var(--yellow); outline-offset:3px; }
+  .btn-primary{ background: var(--yellow); color: var(--red-deep); }
+  .btn-primary:hover{ box-shadow: 0 6px 14px rgba(255,199,44,0.35); }
+  .btn-outline{ background:transparent; color:#fff; border-color:#B45560; }
+  .btn-outline:hover{ border-color:#fff; }
+  .btn svg{ width:16px; height:16px; flex-shrink:0; }
+
+  /* ---------- Route ---------- */
+  main{ position:relative; }
+  .route{ max-width: 1080px; margin:0 auto; padding: 0 22px; position:relative; }
+  .route::before{
+    content:""; position:absolute; top:4px; bottom:4px; left:41px; width:4px;
+    background: repeating-linear-gradient(180deg, var(--yellow) 0 20px, transparent 20px 34px);
+    border-radius: 4px;
+  }
+  @media (max-width:600px){ .route::before{ left:19px; } }
+
+  .checkpoint{ position:relative; padding: 22px 0 22px 82px; }
+  @media (max-width:600px){ .checkpoint{ padding-left: 50px; } }
+
+  .checkpoint .pin{
+    position:absolute; left: 16px; top: 22px; width:42px; height:42px; border-radius:50%;
+    background: var(--red); color: var(--yellow);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Oswald",sans-serif; font-weight:700; font-size:1.1rem;
+    box-shadow: 0 0 0 5px var(--bg); z-index:2;
+  }
+  @media (max-width:600px){ .checkpoint .pin{ left:0; width:38px; height:38px; font-size:1rem; } }
+
+  .checkpoint .eyebrow{ color: var(--red); font-weight:700; font-size:0.78rem; margin:0 0 4px; }
+  .checkpoint h2{ font-size: clamp(1.25rem,2.6vw,1.65rem); margin: 0 0 4px; color:var(--red-deep); }
+  .checkpoint .en-sub{ color: var(--ink-soft); font-style:italic; margin: 0 0 14px; font-size:0.88rem; }
+
+  /* ---------- Cards ---------- */
+  .card{ background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: 0 2px 8px rgba(110,18,32,0.05); }
+  .checklist{ list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+  .checklist li{ display:flex; gap:12px; align-items:flex-start; }
+  .checklist .tick{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%;
+    background: rgba(192,39,45,0.1); color: var(--red);
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
+  }
+  .checklist .tick svg{ width:12px; height:12px; }
+  .checklist .item strong{ display:block; font-size:0.97rem; }
+  .checklist .item span{ color: var(--ink-soft); font-size:0.86rem; }
+
+  .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  @media (max-width: 700px){ .grid-2{ grid-template-columns: 1fr; } }
+
+  .grid-3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+  @media (max-width: 880px){ .grid-3{ grid-template-columns: 1fr; } }
+
+  .path-card{ background: var(--paper); border:1px solid var(--line); border-radius: var(--radius); padding: 18px; display:flex; flex-direction:column; gap:10px; }
+  .path-card .icon-badge{ width:40px; height:40px; border-radius:9px; background: var(--bg); display:flex; align-items:center; justify-content:center; color: var(--red-deep); }
+  .path-card .icon-badge svg{ width:22px; height:22px; }
+  .path-card h3{ margin:0; font-size:1.05rem; color: var(--red-deep); text-transform:none; letter-spacing:0; font-family:"Source Sans 3",sans-serif; font-weight:700; }
+  .path-card .en{ color: var(--ink-soft); font-size:0.82rem; font-style:italic; margin-top:-8px; }
+  .path-card ul{ margin:0; padding-left: 18px; color: var(--ink); font-size:0.9rem; display:grid; gap:6px; }
+  .path-card .download-link{
+    margin-top:auto; display:inline-flex; align-items:center; gap:7px;
+    color: var(--red); font-weight:700; text-decoration:none; font-size:0.88rem;
+    padding-top:8px; border-top: 1px dashed var(--line);
+  }
+  .path-card .download-link:hover{ color: var(--red-deep); }
+  .path-card .download-link svg{ width:15px; height:15px; }
+
+  /* ---------- Fee table ---------- */
+  .fee-wrap{ display:grid; grid-template-columns: 1fr 1.2fr; gap:16px; align-items:stretch; }
+  @media (max-width:700px){ .fee-wrap{ grid-template-columns:1fr; } }
+
+  table.fees{ width:100%; border-collapse: collapse; border-radius: var(--radius); overflow:hidden; }
+  table.fees th{
+    background: var(--red-deep); color:#fff; text-align:left; padding:10px 14px;
+    font-family:"Oswald",sans-serif; font-weight:600; font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  table.fees td{ padding:11px 14px; background:var(--paper); border-bottom:1px solid var(--line); font-size:0.92rem; }
+  table.fees tr:last-child td{ border-bottom:none; }
+  table.fees td.fee-amt{ font-weight:700; color: var(--red); font-family:"Oswald",sans-serif; font-size:1.05rem; }
+
+  .warn-box{
+    background: #FDEEDB; border: 1.5px solid var(--yellow-dark);
+    border-radius: var(--radius); padding: 16px 18px; display:flex; gap:12px; align-items:flex-start;
+  }
+  .warn-box .icon{ flex-shrink:0; width:30px; height:30px; border-radius:50%; background: var(--red); color:#fff; display:flex; align-items:center; justify-content:center; }
+  .warn-box .icon svg{ width:16px; height:16px; }
+  .warn-box strong{ color: var(--red-dark); display:block; font-size:0.97rem; margin-bottom:2px; }
+  .warn-box p{ margin:0; color: #5A3A1E; font-size:0.86rem; }
+
+  /* ---------- Final banner ---------- */
+  .final{ background: var(--red-deep); color:#fff; padding: 26px 0 30px; margin-top: 6px; position:relative; }
+  .final::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:8px;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0 36px, transparent 36px 64px);
+  }
+  .final h2{ color:#fff; font-size: clamp(1.2rem,2.8vw,1.6rem); margin:0 0 8px; }
+  .final p{ color:#F5DEE0; max-width:62ch; margin:0 0 16px; font-size:0.92rem; }
+  .final-ctas{ display:flex; gap:10px; flex-wrap:wrap; }
+  .btn-go{ background: var(--yellow); color: var(--red-deep); }
+  .btn-go:hover{ box-shadow: 0 6px 14px rgba(255,199,44,0.35); }
+
+  footer{ background: var(--red-dark); color:#F0C9CD; padding: 14px 0; font-size:0.8rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .btn:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Lumaktaw sa nilalaman</a>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <div class="brand">
+      <img class="logo" src="assets/logo.png" alt="GUTS logo">
+      <div class="brand-text">
+        <div class="name">GUTS DRIVING SCHOOL</div>
+        <div class="sub">Practical Driving Course</div>
+      </div>
+    </div>
+    <nav class="links" id="navLinks">
+      <a href="#estudyante">Estudyante</a>
+      <a href="#sasakyan">Sasakyan</a>
+      <a href="#bayad">Bayad</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Buksan ang menu">☰</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Bago Dumalo</p>
+    <h1>Ihanda ang mga kailangan bago ang inyong PDC.</h1>
+    <p class="lead">Lahat ng dokumento, opsyon sa sasakyan, at porma na kailangan ninyong ihanda — nasa isang pahina lang.
+      <span class="en">Everything you need before your Practical Driving Course session.</span>
+    </p>
+    <div class="hero-ctas">
+      <a href="#estudyante" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Tingnan ang Kailangan
+      </a>
+      <a href="#sasakyan" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        I-download ang mga Porma
+      </a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+  <div class="route">
+
+    <!-- CHECKPOINT 1 : STUDENT + GENERAL VEHICLE -->
+    <section class="checkpoint" id="estudyante">
+      <div class="pin" aria-hidden="true">1</div>
+      <p class="eyebrow">Checkpoint 1</p>
+      <h2>Mga Kakailanganin</h2>
+      <p class="en-sub">Student &amp; general vehicle requirements</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <ul class="checklist">
+            <li>
+              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="item"><strong>Isang (1) bagong 1×1 ID picture</strong><span>Para sa Training Card</span></div>
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="item"><strong>Valid Student Permit o Driver's License</strong><span>Hindi dapat expired</span></div>
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="item">
+                <strong>Opisyal na Resibo / Invoice</strong>
+                <span>Walk-in: ipakita ang resibo mula sa GUTS · Online: kunin sa Cashier ng GUTS</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <ul class="checklist">
+            <li>
+              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="item"><strong>Updated OR at CR</strong><span>Kung sariling sasakyan ang gagamitin — hindi dapat expired</span></div>
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="item"><strong>Sasakyang may valid na plate number</strong></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKPOINT 2 : VEHICLE PATHS -->
+    <section class="checkpoint" id="sasakyan">
+      <div class="pin" aria-hidden="true">2</div>
+      <p class="eyebrow">Checkpoint 2</p>
+      <h2>Piliin ang Gagamiting Sasakyan</h2>
+      <p class="en-sub">Choose your vehicle path</p>
+
+      <div class="grid-3">
+
+        <div class="path-card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 16.5V11l1.6-4.8A2 2 0 0 1 7.5 5h9a2 2 0 0 1 1.9 1.2L20 11v5.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <h3>Sariling Sasakyan</h3>
+          <p class="en">Own vehicle</p>
+          <ul>
+            <li>Ang OR/CR ay dapat nakapangalan sa estudyante o miyembro ng pamilya</li>
+            <li>Magpasa ng Vehicle Waiver mula sa GUTS, o sariling kumpletong porma</li>
+          </ul>
+          <a class="download-link" href="forms/OWN_VEHICLE_WAIVER_GUTS.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            I-download ang Vehicle Waiver Form
+          </a>
+        </div>
+
+        <div class="path-card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 16.5V11l1.6-4.8A2 2 0 0 1 7.5 5h9a2 2 0 0 1 1.9 1.2L20 11v5.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/><path d="M9 9h1.5M13.5 9H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <h3>Hiram na Sasakyan</h3>
+          <p class="en">Borrowed vehicle</p>
+          <ul>
+            <li>Authorization Letter mula sa rehistradong may-ari</li>
+            <li>Updated OR/CR</li>
+            <li>Kung hindi pa naililipat ang pangalan, magsumite ng photocopy ng Deed of Sale</li>
+          </ul>
+          <a class="download-link" href="forms/AUTHORIZATON_WAIVER_GUTS.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            I-download ang Authorization Letter
+          </a>
+        </div>
+
+        <div class="path-card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 16.5V11l1.6-4.8A2 2 0 0 1 7.5 5h9a2 2 0 0 1 1.9 1.2L20 11v5.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="17.5" r="1.3" stroke="currentColor" stroke-width="1.6"/><path d="M8 8.5h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <h3>Rentang Sasakyan</h3>
+          <p class="en">Rented vehicle</p>
+          <ul>
+            <li>Kumpletuhin ang Vehicle Rental Waiver</li>
+            <li>Tingnan ang bayad sa pagrenta at penalty sa ibaba</li>
+          </ul>
+          <a class="download-link" href="forms/VEHICLE_RENTAL_WAIVER_GUTS.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            I-download ang Vehicle Rental Waiver
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHECKPOINT 3 : FEES -->
+    <section class="checkpoint" id="bayad">
+      <div class="pin" aria-hidden="true">3</div>
+      <p class="eyebrow">Checkpoint 3 · Kung magrerenta</p>
+      <h2>Bayad sa Pagrenta ng Sasakyan</h2>
+      <p class="en-sub">Vehicle rental fees</p>
+
+      <div class="fee-wrap">
+        <table class="fees">
+          <thead><tr><th>Uri ng Sasakyan</th><th>Bayad</th></tr></thead>
+          <tbody>
+            <tr><td>Motorsiklo <span style="color:var(--ink-soft); font-size:0.8rem;">/ Motorcycle</span></td><td class="fee-amt">₱500</td></tr>
+            <tr><td>Kotse <span style="color:var(--ink-soft); font-size:0.8rem;">/ Car</span></td><td class="fee-amt">₱800</td></tr>
+          </tbody>
+        </table>
+
+        <div class="warn-box">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 4.2 2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <strong>₱200 karagdagang bayad</strong>
+            <p>Para sa same-day o on-the-day na pagrenta ng sasakyan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="final">
+  <div class="wrap">
+    <h2>May Tanong Pa?</h2>
+    <p>Bisitahin ang Cashier ng GUTS para sa inyong opisyal na resibo, o magtanong sa inyong enrollment coordinator kung aling opsyon sa sasakyan ang bagay sa inyo.</p>
+    <div class="final-ctas">
+      <a href="#estudyante" class="btn btn-go">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5m0 0-6 6m6-6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Bumalik sa Kailangan
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>GUTS · Practical Driving Course</span>
+    <span>Dalhin ang lahat ng dokumento sa araw ng inyong session.</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+
+</body>
+</html>
